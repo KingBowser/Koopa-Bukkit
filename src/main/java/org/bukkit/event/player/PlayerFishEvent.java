@@ -1,5 +1,6 @@
 package org.bukkit.event.player;
 
+import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.entity.Entity;
@@ -14,10 +15,24 @@ public class PlayerFishEvent extends PlayerEvent implements Cancellable {
     private boolean cancel = false;
     private int exp;
     private final State state;
+    private final Fish hookEntity;
 
+    /**
+     * @deprecated replaced by {@link #PlayerFishEvent(Player, Entity, Fish,
+     * State)} to include the {@link Fish} hook entity.
+     * @param player
+     * @param entity
+     * @param state
+     */
+    @Deprecated
     public PlayerFishEvent(final Player player, final Entity entity, final State state) {
+        this(player, entity, null, state);
+    }
+
+    public PlayerFishEvent(final Player player, final Entity entity, final Fish hookEntity, final State state) {
         super(player);
         this.entity = entity;
+        this.hookEntity = hookEntity;
         this.state = state;
     }
 
@@ -30,6 +45,14 @@ public class PlayerFishEvent extends PlayerEvent implements Cancellable {
         return entity;
     }
 
+    /**
+     * Gets the fishing hook.
+     * @return Fish the entity representing the fishing hook/bobber.
+     */
+    public Fish getHook() {
+        return hookEntity;
+    }
+
     public boolean isCancelled() {
         return cancel;
     }
@@ -40,7 +63,7 @@ public class PlayerFishEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Gets the amount of experience received when fishing.
-     * <p />
+     * <p>
      * Note: This value has no default effect unless the event state is {@link State#CAUGHT_FISH}.
      *
      * @return the amount of experience to drop
@@ -51,7 +74,7 @@ public class PlayerFishEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Sets the amount of experience received when fishing.
-     * <p />
+     * <p>
      * Note: This value has no default effect unless the event state is {@link State#CAUGHT_FISH}.
      *
      * @param amount the amount of experience to drop

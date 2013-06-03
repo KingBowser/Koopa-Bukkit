@@ -163,7 +163,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Loads the {@link Chunk} at the specified coordinates
-     * <p />
+     * <p>
      * If the chunk does not exist, it will be generated.
      * This method is analogous to {@link #loadChunk(int, int, boolean)} where generate is true.
      *
@@ -184,7 +184,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Safely unloads and saves the {@link Chunk} at the specified coordinates
-     * <p />
+     * <p>
      * This method is analogous to {@link #unloadChunk(int, int, boolean, boolean)} where safe and saveis true
      *
      * @param chunk the chunk to unload
@@ -194,7 +194,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Safely unloads and saves the {@link Chunk} at the specified coordinates
-     * <p />
+     * <p>
      * This method is analogous to {@link #unloadChunk(int, int, boolean, boolean)} where safe and saveis true
      *
      * @param x X-coordinate of the chunk
@@ -205,7 +205,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Safely unloads and optionally saves the {@link Chunk} at the specified coordinates
-     * <p />
+     * <p>
      * This method is analogous to {@link #unloadChunk(int, int, boolean, boolean)} where save is true
      *
      * @param x X-coordinate of the chunk
@@ -228,7 +228,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Safely queues the {@link Chunk} at the specified coordinates for unloading
-     * <p />
+     * <p>
      * This method is analogous to {@link #unloadChunkRequest(int, int, boolean)} where safe is true
      *
      * @param x X-coordinate of the chunk
@@ -438,7 +438,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the relative in-game time of this world.
-     * <p />
+     * <p>
      * The relative time is analogous to hours * 1000
      *
      * @return The current relative time
@@ -448,9 +448,9 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the relative in-game time on the server.
-     * <p />
+     * <p>
      * The relative time is analogous to hours * 1000
-     * <p />
+     * <p>
      * Note that setting the relative time below the current relative time will
      * actually move the clock forward a day. If you require to rewind time, please
      * see setFullTime
@@ -470,7 +470,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the in-game time on the server
-     * <p />
+     * <p>
      * Note that this sets the full time of the world, which may cause adverse
      * effects such as breaking redstone clocks and any scheduled events
      *
@@ -655,7 +655,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
     /**
      * Spawn a {@link FallingBlock} entity at the given {@link Location} of the specified {@link Material}.
      * The material dictates what is falling. When the FallingBlock hits the ground, it will place that block.
-     * <p />
+     * <p>
      * The Material must be a block type, check with {@link Material#isBlock() material.isBlock()}.
      * The Material may not be air.
      *
@@ -671,10 +671,11 @@ public interface World extends PluginMessageRecipient, Metadatable {
      * Spawn a {@link FallingBlock} entity at the given {@link Location} of the specified blockId (converted to {@link Material})
      *
      * @param location The {@link Location} to spawn the FallingBlock
-     * @param blockId see {@see #spawnFallingBlock(org.bukkit.Location, org.bukkit.Material, byte)} material
+     * @param blockId The id of the intended material
      * @param blockData The block data
      * @return The spawned FallingBlock instance
-     * @throws IllegalArgumentException see {@see #spawnFallingBlock(org.bukkit.Location, org.bukkit.Material, byte)}
+     * @throws IllegalArgumentException if location is null, or blockId is invalid
+     * @see #spawnFallingBlock(org.bukkit.Location, org.bukkit.Material, byte)
      */
     public FallingBlock spawnFallingBlock(Location location, int blockId, byte blockData) throws IllegalArgumentException;
 
@@ -770,7 +771,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the temperature for the given block coordinates.
-     * <p />
+     * <p>
      * It is safe to run this method when the block does not exist, it will not create the block.
      *
      * @param x X coordinate of the block
@@ -781,7 +782,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the humidity for the given block coordinates.
-     * <p />
+     * <p>
      * It is safe to run this method when the block does not exist, it will not create the block.
      *
      * @param x X coordinate of the block
@@ -792,7 +793,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the maximum height of this world.
-     * <p />
+     * <p>
      * If the max height is 100, there are only blocks from y=0 to y=99.
      *
      * @return Maximum height of the world
@@ -801,7 +802,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the sea level for this world.
-     * <p />
+     * <p>
      * This is often half of {@link #getMaxHeight()}
      *
      * @return Sea level
@@ -873,19 +874,19 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the world's ticks per animal spawns value
-     * <p />
+     * <p>
      * This value determines how many ticks there are between attempts to spawn animals.
-     * <p />
+     * <p>
      * <b>Example Usage:</b>
      * <ul>
      * <li>A value of 1 will mean the server will attempt to spawn animals in this world every tick.
      * <li>A value of 400 will mean the server will attempt to spawn animals in this world every 400th tick.
      * <li>A value below 0 will be reset back to Minecraft's default.
      * </ul>
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to 0, animal spawning will be disabled for this world. We recommend using {@link #setSpawnFlags(boolean, boolean)} to control this instead.
-     * <p />
+     * <p>
      * Minecraft default: 400.
      *
      * @return The world's ticks per animal spawns value
@@ -894,19 +895,19 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the world's ticks per animal spawns value
-     * <p />
+     * <p>
      * This value determines how many ticks there are between attempts to spawn animals.
-     * <p />
+     * <p>
      * <b>Example Usage:</b>
      * <ul>
      * <li>A value of 1 will mean the server will attempt to spawn animals in this world every tick.
      * <li>A value of 400 will mean the server will attempt to spawn animals in this world every 400th tick.
      * <li>A value below 0 will be reset back to Minecraft's default.
      * </ul>
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to 0, animal spawning will be disabled for this world. We recommend using {@link #setSpawnFlags(boolean, boolean)} to control this instead.
-     * <p />
+     * <p>
      * Minecraft default: 400.
      *
      * @param ticksPerAnimalSpawns the ticks per animal spawns value you want to set the world to
@@ -915,19 +916,19 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the world's ticks per monster spawns value
-     * <p />
+     * <p>
      * This value determines how many ticks there are between attempts to spawn monsters.
-     * <p />
+     * <p>
      * <b>Example Usage:</b>
      * <ul>
      * <li>A value of 1 will mean the server will attempt to spawn monsters in this world every tick.
      * <li>A value of 400 will mean the server will attempt to spawn monsters in this world every 400th tick.
      * <li>A value below 0 will be reset back to Minecraft's default.
      * </ul>
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to 0, monsters spawning will be disabled for this world. We recommend using {@link #setSpawnFlags(boolean, boolean)} to control this instead.
-     * <p />
+     * <p>
      * Minecraft default: 1.
      *
      * @return The world's ticks per monster spawns value
@@ -936,19 +937,19 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the world's ticks per monster spawns value
-     * <p />
+     * <p>
      * This value determines how many ticks there are between attempts to spawn monsters.
-     * <p />
+     * <p>
      * <b>Example Usage:</b>
      * <ul>
      * <li>A value of 1 will mean the server will attempt to spawn monsters in this world on every tick.
      * <li>A value of 400 will mean the server will attempt to spawn monsters in this world every 400th tick.
      * <li>A value below 0 will be reset back to Minecraft's default.
      * </ul>
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to 0, monsters spawning will be disabled for this world. We recommend using {@link #setSpawnFlags(boolean, boolean)} to control this instead.
-     * <p />
+     * <p>
      * Minecraft default: 1.
      *
      * @param ticksPerMonsterSpawns the ticks per monster spawns value you want to set the world to
@@ -963,7 +964,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the limit for number of monsters that can spawn in a chunk in this world
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to a negative number the world will use the server-wide spawn limit instead.
      */
@@ -977,7 +978,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the limit for number of animals that can spawn in a chunk in this world
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to a negative number the world will use the server-wide spawn limit instead.
      */
@@ -991,7 +992,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Sets the limit for number of water animals that can spawn in a chunk in this world
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to a negative number the world will use the server-wide spawn limit instead.
      */
@@ -999,13 +1000,13 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the limit for number of ambient mobs that can spawn in a chunk in this world
-     * @returns The ambient spawn limit
+     * @return The ambient spawn limit
      */
     int getAmbientSpawnLimit();
 
     /**
      * Sets the limit for number of ambient mobs that can spawn in a chunk in this world
-     * <p />
+     * <p>
      * <b>Note:</b>
      * If set to a negative number the world will use the server-wide spawn limit instead.
      */
@@ -1013,7 +1014,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Play a Sound at the provided Location in the World
-     * <p />
+     * <p>
      * This function will fail silently if Location or Sound are null.
      *
      * @param location The location to play the sound
@@ -1021,7 +1022,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
      * @param volume The volume of the sound
      * @param pitch The pitch of the sound
      */
-    void playSound(Location loc, Sound sound, float volume, float pitch);
+    void playSound(Location location, Sound sound, float volume, float pitch);
 
     /**
      * Get existing rules
@@ -1032,7 +1033,7 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Gets the current state of the specified rule
-     * <p />
+     * <p>
      * Will return null if rule passed is null
      *
      * @param rule Rule to look up value of
@@ -1042,10 +1043,10 @@ public interface World extends PluginMessageRecipient, Metadatable {
 
     /**
      * Set the specified gamerule to specified value.
-     * <p />
+     * <p>
      * The rule may attempt to validate the value passed, will return true if
      * value was set.
-     * <p />
+     * <p>
      * If rule is null, the function will return false.
      *
      * @param rule Rule to set
