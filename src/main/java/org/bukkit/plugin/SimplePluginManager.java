@@ -279,7 +279,7 @@ public final class SimplePluginManager implements PluginManager {
 
     /**
      * Loads the plugin in the specified file
-     * <p />
+     * <p>
      * File must be valid according to the current enabled Plugin interfaces
      *
      * @param file File containing the plugin to load
@@ -327,7 +327,7 @@ public final class SimplePluginManager implements PluginManager {
 
     /**
      * Checks if the given plugin is loaded and returns it when applicable
-     * <p />
+     * <p>
      * Please note that the name of the plugin is case-sensitive
      *
      * @param name Name of the plugin to check
@@ -343,7 +343,7 @@ public final class SimplePluginManager implements PluginManager {
 
     /**
      * Checks if the given plugin is enabled or not
-     * <p />
+     * <p>
      * Please note that the name of the plugin is case-sensitive.
      *
      * @param name Name of the plugin to check
@@ -581,11 +581,11 @@ public final class SimplePluginManager implements PluginManager {
     }
 
     public void removePermission(Permission perm) {
-        removePermission(perm.getName().toLowerCase());
+        removePermission(perm.getName());
     }
 
     public void removePermission(String name) {
-        permissions.remove(name);
+        permissions.remove(name.toLowerCase());
     }
 
     public void recalculatePermissionDefaults(Permission perm) {

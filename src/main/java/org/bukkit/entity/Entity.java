@@ -47,6 +47,14 @@ public interface Entity extends Metadatable {
     public Vector getVelocity();
 
     /**
+     * Returns true if the entity is supported by a block. This value is a state
+     * updated by the server and is not recalculated unless the entity moves.
+     *
+     * @return True if entity is on ground.
+     */
+    public boolean isOnGround();
+
+    /**
      * Gets the current world this entity resides in
      *
      * @return World
@@ -218,7 +226,7 @@ public interface Entity extends Metadatable {
 
     /**
      * Gets the amount of ticks this entity has lived for.
-     * <p />
+     * <p>
      * This is the equivalent to "age" in entities.
      *
      * @return Age of entity
@@ -227,7 +235,7 @@ public interface Entity extends Metadatable {
 
     /**
      * Sets the amount of ticks this entity has lived for.
-     * <p />
+     * <p>
      * This is the equivalent to "age" in entities. May not be less than one tick.
      *
      * @param value Age of entity
@@ -236,7 +244,7 @@ public interface Entity extends Metadatable {
 
     /**
      * Performs the specified {@link EntityEffect} for this entity.
-     * <p />
+     * <p>
      * This will be viewable to all players near the entity.
      *
      * @param type Effect to play.

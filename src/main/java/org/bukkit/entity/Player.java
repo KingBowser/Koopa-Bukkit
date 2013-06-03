@@ -12,10 +12,12 @@ import org.bukkit.Note;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
+import org.bukkit.WeatherType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
+import org.bukkit.scoreboard.Scoreboard;
 
 /**
  * Represents a player, connected or not
@@ -23,7 +25,7 @@ import org.bukkit.plugin.messaging.PluginMessageRecipient;
 public interface Player extends HumanEntity, Conversable, CommandSender, OfflinePlayer, PluginMessageRecipient {
     /**
      * Gets the "friendly" name to display of this player. This may include color.
-     * <p />
+     * <p>
      * Note that this name will not be displayed in game, only in chat and places
      * defined by plugins
      *
@@ -33,7 +35,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Sets the "friendly" name to display of this player. This may include color.
-     * <p />
+     * <p>
      * Note that this name will not be displayed in game, only in chat and places
      * defined by plugins
      *
@@ -50,11 +52,11 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Sets the name that is shown on the in-game player list.
-     * <p />
+     * <p>
      * The name cannot be longer than 16 characters, but {@link ChatColor} is supported.
-     * <p />
+     * <p>
      * If the value is null, the name will be identical to {@link #getName()}.
-     * <p />
+     * <p>
      * This name is case sensitive and unique, two names with different casing will
      * appear as two different people. If a player joins afterwards with
      * a name that conflicts with a player's custom list name, the
@@ -154,7 +156,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Loads the players current location, health, inventory, motion, and other information from the username.dat file, in the world/player folder
-     * <p />
+     * <p>
      * Note: This will overwrite the players current inventory, health, motion, etc, with the state from the saved dat file.
      */
     public void loadData();
@@ -201,7 +203,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Play a sound for a player at the location.
-     * <p />
+     * <p>
      * This function will fail silently if Location or Sound are null.
      *
      * @param location The location to play the sound
@@ -243,7 +245,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
      * Send a chunk change. This fakes a chunk change packet for a user at
      * a certain location. The updated cuboid must be entirely within a single
      * chunk. This will not actually change the world in any way.
-     * <p />
+     * <p>
      * At least one of the dimensions of the cuboid must be even. The size of the
      * data buffer must be 2.5*sx*sy*sz and formatted in accordance with the Packet51
      * format.
@@ -269,7 +271,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Render a map and send it to the player in its entirety. This may be used
-     * when streaming the map in the normal manner is not desirbale.
+     * when streaming the map in the normal manner is not desirable.
      *
      * @param map The map to be sent
      */
@@ -325,7 +327,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
     /**
      * Sets the current time on the player's client. When relative is true the player's time
      * will be kept synchronized to its world time with the specified offset.
-     * <p />
+     * <p>
      * When using non relative time the player's time will stay fixed at the specified time parameter. It's up to
      * the caller to continue updating the player's time. To restore player time to normal use resetPlayerTime().
      *
@@ -364,6 +366,29 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
     public void resetPlayerTime();
 
     /**
+     * Sets the type of weather the player will see.  When used, the weather
+     * status of the player is locked until {@link #resetPlayerWeather()} is
+     * used.
+     *
+     * @param type The WeatherType enum type the player should experience
+     */
+    public void setPlayerWeather(WeatherType type);
+
+    /**
+     * Returns the type of weather the player is currently experiencing.
+     *
+     * @return The WeatherType that the player is currently experiencing or
+     * null if player is seeing server weather.
+     */
+    public WeatherType getPlayerWeather();
+
+    /**
+     * Restores the normal condition where the player's weather is controlled
+     * by server conditions.
+     */
+    public void resetPlayerWeather();
+
+    /**
      * Gives the player the amount of experience specified.
      *
      * @param amount Exp amount to give
@@ -379,7 +404,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Gets the players current experience points towards the next level.
-     * <p />
+     * <p>
      * This is a percentage value. 0 is "no progress" and 1 is "next level".
      *
      * @return Current experience points
@@ -388,7 +413,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Sets the players current experience points towards the next level
-     * <p />
+     * <p>
      * This is a percentage value. 0 is "no progress" and 1 is "next level".
      *
      * @param exp New experience points
@@ -425,7 +450,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Gets the players current exhaustion level.
-     * <p />
+     * <p>
      * Exhaustion controls how fast the food level drops. While you have a certain
      * amount of exhaustion, your saturation will drop to zero, and then your food
      * will drop to zero.
@@ -443,7 +468,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Gets the players current saturation level.
-     * <p />
+     * <p>
      * Saturation is a buffer for food level. Your food level will not drop if you
      * are saturated > 0.
      *
@@ -531,6 +556,16 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
     public boolean canSee(Player player);
 
     /**
+     * Checks to see if this player is currently standing on a block. This information may
+     * not be reliable, as it is a state provided by the client, and may therefore not be accurate.
+     *
+     * @return True if the player standing on a solid block, else false.
+     * @deprecated Inconsistent with {@link org.bukkit.entity.Entity#isOnGround()}
+     */
+    @Deprecated
+    public boolean isOnGround();
+
+    /**
      * Checks to see if this player is currently flying or not.
      *
      * @return True if the player is flying, else false.
@@ -572,14 +607,14 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     /**
      * Request that the player's client download and switch texture packs.
-     * <p />
+     * <p>
      * The player's client will download the new texture pack asynchronously in the background, and
      * will automatically switch to it once the download is complete. If the client has downloaded
      * and cached the same texture pack in the past, it will perform a quick timestamp check over
      * the network to determine if the texture pack has changed and needs to be downloaded again.
      * When this request is sent for the very first time from a given server, the client will first
      * display a confirmation GUI to the player before proceeding with the download.
-     * <p />
+     * <p>
      * Notes:
      *   <ul>
      *     <li>Players can disable server textures on their client, in which case this method will have no affect on them.</li>
@@ -592,4 +627,23 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
      * @throws IllegalArgumentException Thrown if the URL is too long.
      */
     public void setTexturePack(String url);
+
+    /**
+     * Gets the Scoreboard displayed to this player
+     *
+     * @return The current scoreboard seen by this player
+     */
+    public Scoreboard getScoreboard();
+
+    /**
+     * Sets the player's visible Scoreboard.
+     *
+     * @param scoreboard New Scoreboard for the player
+     * @throws IllegalArgumentException if scoreboard is null
+     * @throws IllegalArgumentException if scoreboard was not created by the
+     *     {@link org.bukkit.scoreboard.ScoreboardManager scoreboard manager}
+     * @throws IllegalStateException if this is a player that is not logged
+     *     yet or has logged out
+     */
+    public void setScoreboard(Scoreboard scoreboard) throws IllegalArgumentException, IllegalStateException;
 }

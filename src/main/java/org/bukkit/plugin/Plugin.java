@@ -13,7 +13,7 @@ import com.avaje.ebean.EbeanServer;
 
 /**
  * Represents a Plugin
- * <p />
+ * <p>
  * The use of {@link PluginBase} is recommended for actual Implementation
  */
 public interface Plugin extends TabExecutor {
@@ -34,7 +34,7 @@ public interface Plugin extends TabExecutor {
 
     /**
      * Gets a {@link FileConfiguration} for this plugin, read through "config.yml"
-     * <p />
+     * <p>
      * If there is a default config.yml embedded in this plugin, it will be provided
      * as a default for this Configuration.
      *
@@ -130,9 +130,20 @@ public interface Plugin extends TabExecutor {
     public void setNaggable(boolean canNag);
 
     /**
-     * Gets the {@link EbeanServer} tied to this plugin
+     * Gets the {@link EbeanServer} tied to this plugin. This will only be
+     * available if enabled in the {@link
+     * PluginDescriptionFile#isDatabaseEnabled()}
+     * <p>
+     * <i>For more information on the use of <a href="http://www.avaje.org/">
+     * Avaje Ebeans ORM</a>, see <a
+     * href="http://www.avaje.org/ebean/documentation.html">Avaje Ebeans
+     * Documentation</a></i>
+     * <p>
+     * <i>For an example using Ebeans ORM, see <a
+     * href="https://github.com/Bukkit/HomeBukkit">Bukkit's Homebukkit Plugin
+     * </a></i>
      *
-     * @return Ebean server instance
+     * @return ebean server instance or null if not enabled
      */
     public EbeanServer getDatabase();
 
